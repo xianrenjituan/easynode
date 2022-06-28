@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$(id -u)" != "0" ] ; then
-  echo "***********************需root权限***********************"
+  echo "***********************请切换到root再尝试执行***********************"
 	exit 1
 fi
 
@@ -42,8 +42,8 @@ echo "***********************创建文件PATH***********************"
 mkdir -p ${FILE_PATH}
 
 echo "***********************下载开始***********************"
-DOWNLOAD_FILE_URL="https://ghproxy.com/https://github.com/chaos-zhu/easynode/releases/download/v1.0/easynode-client"
-DOWNLOAD_SERVICE_URL="https://ghproxy.com/https://raw.githubusercontent.com/chaos-zhu/easynode/v1.0/client/easynode-client.service"
+DOWNLOAD_FILE_URL="https://ghproxy.com/https://github.com/chaos-zhu/easynode/releases/download/v1.1/easynode-client-x86"
+DOWNLOAD_SERVICE_URL="https://ghproxy.com/https://raw.githubusercontent.com/chaos-zhu/easynode/v1.1/client/easynode-client.service"
 
 # -O 指定路径和文件名(这里是二进制文件, 不需要扩展名)
 wget -O ${FILE_PATH}/${SERVER_NAME} --no-check-certificate --no-cache ${DOWNLOAD_FILE_URL}
@@ -63,24 +63,21 @@ fi
 
 echo "***********************下载成功***********************"
 
-echo "***********************设置权限***********************"
+# echo "***********************设置权限***********************"
 chmod +x ${FILE_PATH}/${SERVER_NAME}
 chmod 777 ${FILE_PATH}/${SERVER_NAME}.service
 
-echo "***********************移动service&reload***********************"
+# echo "***********************移动service&reload***********************"
 mv ${FILE_PATH}/${SERVER_NAME}.service ${SERVICE_PATH}
 
-echo "***********************daemon-reload***********************"
+# echo "***********************daemon-reload***********************"
 systemctl daemon-reload
 
 echo "***********************启动服务***********************"
 systemctl start ${SERVER_NAME}
 
 
-echo "***********************设置开机启动***********************"
+# echo "***********************设置开机启动***********************"
 systemctl enable ${SERVER_NAME}
 
-echo "***********************完成安装并启动***********************"
-
-echo "***********************删除脚本***********************"
-rm  $0
+echo "***********************安装成功***********************"
